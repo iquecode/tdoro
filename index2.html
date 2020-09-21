@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style2.css"/>
+    <title>TDORO</title>
+</head>
+
+<body>
+
+
+    <div class="layout">
+
+
+        <header class="header">
+            <a href=""><img src="assets/images/logo.png" alt="Logo"/></a>
+            <nav>
+                <ul class="menu">
+                    <li><span id="set" class="button" onclick="startModal('modal-set')">Configurações</span></li>
+                    <li><span id="login" class="button">Login</span>
+                </ul>
+            </nav>
+        </header>
+
+
+        <section class="app">
+
+            <div class="timer">
+
+                <div class="btn-tt">
+                    <div class="button" onclick="activate('pomodoro')"><span>Pomodoro</span></div>
+                    <div class="button" onclick="activate('short')"><span>Pausa Curta</span></div>
+                    <div class="button" onclick="activate('long')"><span>Pausa Longa</span></div>
+                </div>
+
+                <div class="display-timer">
+                    <span id="mm">25</span>:<span id="ss">00</span>
+                </div>
+
+                <span class="start-stop button shadow" onclick="action()">Iniciar</span>
+
+
+
+            </div>
+
+            <span class="msg">Hora de trabalhar</span>
+
+            <div class="task-header">
+                <div>Tarefas</div>
+                <div>Add</div>    
+            </div>
+
+            <div class="task-list">
+                <div class="task">
+                    <span class="task-top">
+                        <span class="check"></span> 
+                        <i><img src="assets/images/icons/options.svg" alt="Opções" width="15px"></i>
+                    </span>
+                    
+                    <div>... titulo da tarefa</div>
+                    <div class="task-note">
+                        Notas sobre a tarefa
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="text">
+
+        </section>
+
+        
+        <footer class="footer">
+
+        </footer>
+
+
+
+    </div>
+    
+</body>
+</html>

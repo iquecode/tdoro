@@ -28,6 +28,11 @@ body, ul, li, p {
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+.model-task, .model-note {
+    display: none;
+}
+
+
 .layout {
     display: flex;
     flex-direction: column;
@@ -61,6 +66,9 @@ body, ul, li, p {
     width: 100vw;
 }
 
+.add-task:hover {
+    font-weight: 800;
+}
 
 .menu {
     display: flex;

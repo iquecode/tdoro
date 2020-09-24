@@ -163,8 +163,68 @@ function startModal(modalID) {
 
 
 
+function fillTasksStorage() {
+
+     
+
+        let tasks = [
+            { head:'Exemplo de tarefa 1', note:''},
+            { head:'Exemplo de tarefa 2', note:'Notas da tarefa 2'},
+            { head:'Exemplo de tarefa 3', note:'Notas da tarefa 3'}
+        ];
+
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        //tasks = JSON.parse(localStorage.getItem("tasks"));
+        /*
+        console.log(typeof tasks); //object
+        console.log(tasks); //[1, 2, 3]
+        */
+
+       tasks = JSON.parse(localStorage.getItem("tasks"));
+        
+       if (tasks) {                // if tasks is not null
+            // preencher na tela
+               
+            tasks.map((item, index)=>{
+                let taskItem = document.querySelector('.model-task').cloneNode(true);
+                taskItem.querySelector('.task-head').innerHTML = item.head;
+                taskItem.classList.remove('model-task');
+                taskItem.classList.add('task');
+
+                if (item.note) {
+                    taskItem.querySelector('.task-note').innerHTML = item.note;
+                } else {
+                    taskItem.querySelector('.task-note').style.display = 'none';
+                }
+      
+                
+                document.querySelector('.task-list').append(taskItem);
+                //console.log(item);
+            }); 
+
+       } 
+
+       //console.log(tasks);
+
+       //localStorage.clear();
+
+}
+
+
+
 function tdoro() {
    activate("pomodoro"); 
+   fillTasksStorage();
+
+   //Verificar localstorage a procura das tarefas cadastradas
+   // se tiver tarefas, colocar na tela
+   
+
+
+   document.querySelector('.add-task').addEventListener('click', (e) => {
+       console.log('CLICOU - ADICIONAR NOVA TAREFA');
+   }) 
+
 }
 
 tdoro();

@@ -11,6 +11,9 @@ let timer = {
 };
 
 
+let taskIndexControl = -1;
+
+
 function action() {
     let btn;
 
@@ -148,17 +151,143 @@ function activate(t) {  // t - pomodoro - short ou long
 }
 
 
-function startModal(modalID) {
+
+function clearModalTasks() {
+    const title = document.getElementById('task-title'); 
+    const note = document.getElementById('task-note');
+    title.value = '';
+    note.value = '';
+    taskIndexControl = -1;
+    document.querySelector('.btn-task-delete').style.display='none';
+    document.querySelector('.btn-task').classList.remove('save-active');
+}
+
+
+function startModal(modalID, clear=true) {
     const modal = document.getElementById(modalID);
 
+
     if(modal) {
-        modal.classList.add('show');
-        modal.addEventListener('click', (e) => {
+
+      
+        if(clear) {
+            clearModalTasks();
+        }
+
+       modal.classList.add('show');
+
+       modal.addEventListener('click', (e) => {
+
+             
+
             if(e.target.id == modalID || e.target.className == "close") {
                 modal.classList.remove('show');
+            }    
+
+            if(e.target.id == modalID || e.target.className == "btn-set") {
+                console.log('salvar configurações');
+            }
+
+
+        });
+ 
+
+
+    }
+
+
+}
+
+
+function setTaskModal() {
+
+       
+
+        saveActive = false;
+        btnTask = document.querySelector('.btn-task');
+        btnTaskDelete = document.querySelector('.btn-task-delete');
+
+        btnTask.addEventListener('click', (e) => {
+            if (saveActive) {           
+                saveNewTask(taskIndexControl);
             }
         });
+
+        btnTaskDelete.addEventListener('click', (e) => {
+            saveNewTask(taskIndexControl, true); 
+        });
+
+
+
+
+       
+
+
+        document.querySelector("#task-title").addEventListener("input", function(){
+            //let botao_proximo = document.body.querySelector("#proximo");
+            
+            // habilita o botão com 3 ou mais caracteres digitados
+            saveActive = this.value.length >= 1 ? true : false;   
+            
+           
+            if (saveActive) {
+                btnTask.classList.add('save-active');
+            } else {
+                btnTask.classList.remove('save-active');
+            }
+            
+        });
+    
+}
+
+
+
+function saveNewTask(index=-1, del=false) {   //-1 = newTask
+
+    const titleValue = document.getElementById('task-title').value; 
+    const noteValue = document.getElementById('task-note').value;
+    
+    console.log(`Tarefa: ${titleValue}.  Anotações: ${noteValue}`);
+
+    newTask = {};
+    newTask.title = titleValue;
+    newTask.note = noteValue;
+    
+    
+    if (index==-1) {
+        tasks.push(newTask);
+    } else if (del=false) {
+        tasks[index] = newTask;
+    } else {
+        tasks.splice(index,1);
     }
+    
+    
+        
+    
+
+    localStorage.setItem("tasks", JSON.stringify(tasks)); // coloca os dados do array no localStorage
+  
+    const modal = document.getElementById('modal-set-task');
+    modal.classList.remove('show');
+    
+    fillTasksStorage();
+
+}
+
+
+function editTask(index) {
+    let title = tasks[index].title;
+    let note = tasks[index].note;
+
+    const titleForm = document.getElementById('task-title'); 
+    const noteForm = document.getElementById('task-note');
+    titleForm.value = title;
+    noteForm.value = note;
+
+    document.querySelector('.btn-task-delete').style.display='flex';
+    taskIndexControl = index;
+    startModal('modal-set-task', false);
 }
 
 
@@ -167,27 +296,30 @@ function fillTasksStorage() {
 
      
 
-        let tasks = [
-            { head:'Exemplo de tarefa 1', note:''},
-            { head:'Exemplo de tarefa 2', note:'Notas da tarefa 2'},
-            { head:'Exemplo de tarefa 3', note:'Notas da tarefa 3'}
-        ];
+         /* let tasks = [
+            { title:'Exemplo de tarefa 1', note:''},
+            { title:'Exemplo de tarefa 2', note:'Notas da tarefa 2'},
+            { title:'Exemplo de tarefa 3', note:'Notas da tarefa 3'}
+        ]; 
 
-        localStorage.setItem("tasks", JSON.stringify(tasks));
+        localStorage.setItem("tasks", JSON.stringify(tasks)); */
         //tasks = JSON.parse(localStorage.getItem("tasks"));
         /*
         console.log(typeof tasks); //object
         console.log(tasks); //[1, 2, 3]
         */
 
-       tasks = JSON.parse(localStorage.getItem("tasks"));
+       tasks = JSON.parse(localStorage.getItem("tasks"));  // colocando os dados do localStorage no array.
         
        if (tasks) {                // if tasks is not null
             // preencher na tela
+
+            document.querySelector('.task-list').innerHTML = '';
                
+            let opt;
             tasks.map((item, index)=>{
                 let taskItem = document.querySelector('.model-task').cloneNode(true);
-                taskItem.querySelector('.task-head').innerHTML = item.head;
+                taskItem.querySelector('.task-title').innerHTML = item.title + '-' + index;
                 taskItem.classList.remove('model-task');
                 taskItem.classList.add('task');
 
@@ -196,6 +328,13 @@ function fillTasksStorage() {
                 } else {
                     taskItem.querySelector('.task-note').style.display = 'none';
                 }
+
+                opt = taskItem.querySelector('.opt');
+                opt.style.cursor='pointer';
+                opt.addEventListener('click', (e)=>{
+                    editTask(index);
+                    //addTask();
+                });
       
                 
                 document.querySelector('.task-list').append(taskItem);
@@ -211,20 +350,76 @@ function fillTasksStorage() {
 }
 
 
-
-function tdoro() {
-   activate("pomodoro"); 
-   fillTasksStorage();
-
-   //Verificar localstorage a procura das tarefas cadastradas
-   // se tiver tarefas, colocar na tela
-   
-
-
-   document.querySelector('.add-task').addEventListener('click', (e) => {
-       console.log('CLICOU - ADICIONAR NOVA TAREFA');
-   }) 
+function addTask() {
+    console.log('Clicou em adicionar tarefa.');
+    startModal('modal-set-task');
+    //abrir modal para preencher dados da tarefa
+    //
+    // O que ter no modal?
+    // descrição da tarefa
+    // notas sobre a tarefa
+    // criar projeto com lista de tarefas
+    
 
 }
 
+function addNote() {
+    console.log('Clicou em add anotações');
+
+    //input-note   mudar displey para flex
+    document.querySelector('.input-note').style.display='flex';
+    document.querySelector('.add-note').style.display='none';
+
+}
+
+
+
+function tdoro() {
+
+     /* let tasks = [
+        { title:'Exemplo de tarefa 1', note:''},
+        { title:'Exemplo de tarefa 2', note:'Notas da tarefa 2'},
+        { title:'Exemplo de tarefa 3', note:'Notas da tarefa 3'}
+    ];  */
+
+    let tasks = [];
+    localStorage.setItem("tasks", JSON.stringify(tasks)); // colocando os dados do array no localstorage
+
+    setTaskModal();
+
+    
+
+    activate("pomodoro"); 
+    fillTasksStorage();  // coloca os dados do local storage no array.
+
+    //Verificar localstorage a procura das tarefas cadastradas
+    // se tiver tarefas, colocar na tela
+   
+
+
+    document.querySelector('.add-task').addEventListener('click', (e) => {
+        addTask();
+    }) 
+
+    document.querySelector('.add-note').addEventListener('click', (e) => {
+    addNote();
+
+   /*  document.querySelector('.btn-task').addEventListener('click', (e) => {
+        // e.preventDefault();
+        console.log('teste');
+        saveNewTask();
+    }); */
+
+
+    
+
+}) 
+
+
+   
+
+
+}
+
+localStorage.clear();
 tdoro();

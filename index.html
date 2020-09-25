@@ -15,10 +15,10 @@
     <div class="model-task">
         <span class="task-top">
             <span class="check"></span> 
-            <i><img src="assets/images/icons/options.svg" alt="Opções" width="15px"></i>
+            <i class="opt"><img src="assets/images/icons/options.svg" alt="Opções" width="15px"></i>
         </span>
         
-        <div class="task-head"></div>
+        <div class="task-title"></div>
         <div class="task-note"></div>
         <!-- <div class="task-note">
             Notas sobre a tarefa
@@ -166,10 +166,47 @@
                         <sapan>Qtd. de Pomodoros para a pausa longa</sapan>
                         <input class="input-n" type="number" name ="interval-long" value="4" />
                     </label>          
-                    <button class="btn-set">OK</button> 
+                    <span class="btn-set">Salvar</span> 
                 </form>
             </div>
         </div>
+
+        <div id="modal-set-task" class="modal-container">
+            <div class="modal-task">
+                <button class="close">x</button>
+                <form action="" method="">
+
+                    <input class="input-text" type="text" name ="task-title" id="task-title" placeholder="Digite aqui a descrição da nova tarefa..."/>
+                    
+                    <textarea class="input-note" name="task-note" id="task-note" placeholder="Você pode digitar anotações sobre a tarefa aqui..." ></textarea>
+
+                    <div class="add-in-tasks">
+                        <span class="add-note">+ Anotações</span>
+                        <span class="add-project">+ Projeto</span>
+                    </div>
+                    
+                    <div class="btns-new-task">
+
+                        <div><span class="btn-task-delete">Deletar</span></div>
+                        <div><span class="btn-task" id="save-new-task">Salvar</span></div>
+                           
+                    </div>
+                          
+                     
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
     </div>

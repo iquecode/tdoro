@@ -163,6 +163,13 @@ function clearModalTasks() {
 }
 
 
+function resetModalLogin() {
+    document.querySelector('.login-div').style.display = 'block';
+    document.querySelector('.new-password-div').style.display = 'none';
+    document.querySelector('.new-account-div').style.display = 'none';
+}
+
+
 function startModal(modalID, clear=true) {
     const modal = document.getElementById(modalID);
 
@@ -182,6 +189,7 @@ function startModal(modalID, clear=true) {
 
             if(e.target.id == modalID || e.target.className == "close") {
                 modal.classList.remove('show');
+                resetModalLogin();
             }    
 
             if(e.target.id == modalID || e.target.className == "btn-set") {
@@ -372,6 +380,22 @@ function addNote() {
 
 }
 
+
+function setModalLogin(type) {
+
+    document.querySelector('.login-div').style.display = 'none';
+    document.querySelector('.new-password-div').style.display = 'none';
+    document.querySelector('.new-account-div').style.display = 'none';
+    switch (type) {
+        case 'new':
+            document.querySelector('.new-account-div').style.display = 'block';
+            break;
+        case 'password':
+            document.querySelector('.new-password-div').style.display = 'block';
+            break;    
+    }
+
+}
 
 
 function tdoro() {

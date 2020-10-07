@@ -35,7 +35,7 @@
             <nav>
                 <ul class="menu">
                     <li><span id="set" class="button" onclick="startModal('modal-set')">Configurações</span></li>
-                    <li><span id="login" class="button">Login</span>
+                    <li><span id="login" class="button" onclick="startModal('modal-login')">Login</span>
                 </ul>
             </nav>
         </header>
@@ -135,6 +135,54 @@
 
 
         
+        <div id="modal-login" class="modal-container">
+            <div class="modal">
+                <button class="close">x</button>
+                
+                
+                
+                <div class="login-div">
+                    <form class="form-login" action="" method="">
+
+                        <input class="input-login" type="email" name="login-email" placeholder="email..."  />
+                        <input class="input-login" type="password" name= "login-password" placeholder="senha... "/>
+                        <input class="login-submit" type="submit" value="Login" />
+                    </form>
+
+                    <label class="forgot-password" onclick="setModalLogin('password')">
+                        Esqueci a senha
+                    </label>    
+
+                    <label class="new-account" onclick="setModalLogin('new')" >
+                        <span>Não tem conta no Tdoro?</span>
+                        <span class="btn btn-new-account">Criar uma conta</span>
+                    </label>
+                </div>
+
+                <div class="new-account-div">
+                    Digite seu email e escolha uma senha...
+                    <form class="form-login" action="" method="">
+                        <input class="input-login" type="email" name="new-email" placeholder="email..."  />
+                        <input class="input-login" type="password" name= "new-password1" placeholder="Escolha uma senha... "/>
+                        <input class="input-login" type="password" name= "new-password2" placeholder="Confirme a senha... "/>
+                        <input class="login-submit" type="submit" value="Criar conta" />
+                    </form>
+                </div>
+
+                <div class="new-password-div">
+                    Digite seu email para prosseguir com cadastro de nova senha.
+                    <form class="form-login" action="" method="">
+                        <input class="input-login" type="email" name="email-new-password" placeholder="email..."  />
+                        <input class="login-submit" type="submit" value="Enviar" />
+                    </form>
+                </div>
+
+
+            
+            </div>
+        </div>
+
+
 
 
 

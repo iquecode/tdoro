@@ -1,0 +1,97 @@
+Users
+-------
+pkUserId         int(10) 
+name             varchar(60)
+email            varchar(60)
+password         varchar(256)
+logTry           int(2)
+typeUser         int(2)   
+
+
+Projects
+------
+pkProjectId     int(10)
+description     varchar(40)
+notes           varchar(256)
+userId          int
+
+
+Tasks
+------
+pkTaskId        int(10)
+description     varchar(40)
+notes           varchar(256)
+projectId       int
+
+
+Statistics
+-----------
+day             date (Y/m/d)      PrimaryKey   *
+userId          int(10)                   PrimaryKey   *  UserId + day   
+minWork         int(4)
+minBreak        int(4) 
+
+
+
+ALTER TABLE `Projects` ADD CONSTRAINT `pkUserId` FOREIGN KEY (`userId`) 
+REFERENCES `Users`(`pkUserId`) ON DELETE NO ACTION ON UPDATE NO ACTION; 
+
+**** Criar campos para ter as configurações de cada usuário e temas também
+
+
+Div. LOGIN no index.php
+-------------------------
+Email:
+Senha:
+            * por método POST enviar as infos para o recebedor.php que deve validar 
+            tais infos no banco de dados
+            se as infos forem validadades, iniciar seção com uma variável contendo
+            o usuário e redirecionar ao index.php
+            se não for validado, pedir novamente login e Senha
+
+            *o index.php deve verificar qual usuario está logado...
+            se não tiver nenhum usuário logado, admitir visitante, 
+            usando localstorage e não o banco de dados    
+
+
+no início dos arquivos
+session_start();
+
+if(isset($_SESSION['user'])) {
+    echo $_SESSION['user'];
+}
+
+$_SESSION['user'] = userId;
+
+
+
+--------------------------
+LOGIN
+email
+senha    c.(esqueci a senha)
+
+a.[LOGIN]
+
+Não tem conta do Tdoro?
+b.[criar uma conta]
+--------------------------
+
+a. [LOGIN] -> 
+Validar email e senha no banco de dados
+Se validação ok... armazenar em variável da seção o usuário (Id) e redirecinar ao index.php
+Se validação não ok... armazenar aviso de erro e retornar para novo login, mostrando aviso de erro 
+e o zerando
+
+b. [criar uma conta] ->
+Nova conta
+email
+senha
+repetir a senha
+[Confirmar]  --> Validar a senha e cadastrar no BD, enviando email para validar/ativar a conta
+
+
+c. [esqueci a senha]
+
+
+email para validação do cadastro
+https://pt.stackoverflow.com/questions/260267/email-de-confirma%C3%A7%C3%A3o-de-cadastro

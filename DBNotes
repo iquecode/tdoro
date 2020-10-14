@@ -4,9 +4,15 @@ pkUserId         int(10)
 name             varchar(60)
 email            varchar(60)
 password         varchar(256)
-logTry           int(2)
-typeUser         int(2)   
-
+logTry           int(2)       -> Armazena a quantidade de tentativas de login sem sucesso
+typeUser         int(2)       -> Usuário comum ou premium, com a possibilidad de outra variações
+expiration       date         -> Validade do plano pagante premium etc
+token            varchar(256) -> tokem para verificar no localstorage para acessar direto, já com o usuário
+pomodoroTime     int(3)
+shortBreakTime   int(3)
+longBreakTime    int(3)
+qtdCicle         int(2)
+template         int(1)
 
 Projects
 ------

@@ -161,7 +161,7 @@
 
                 <div class="new-account-div">
                     Digite seu email e escolha uma senha...
-                    <form class="form-login" action="" method="">
+                    <form class="form-login" action="system/newAccount.php" method="POST">
                         <input class="input-login" type="email" name="new-email" placeholder="email..."  />
                         <input class="input-login" type="password" name= "new-password1" placeholder="Escolha uma senha... "/>
                         <input class="input-login" type="password" name= "new-password2" placeholder="Confirme a senha... "/>

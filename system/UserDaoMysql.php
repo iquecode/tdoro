@@ -1,5 +1,8 @@
 <?php
 require_once 'models/User.php';
+require_once 'models/Project.php';
+require_once 'models/Task.php';
+require_once 'models/Statistic.php';
 require_once 'Helper.php';
 
 class UserDaoMysql implements UserDao {
@@ -9,17 +12,20 @@ class UserDaoMysql implements UserDao {
         $this->pdo = $driver;
     }
 
+
+   
+
     public function add(User $u) {
 
     
-         $sql = $this->pdo->prepare('INSERT INTO Users (name, email, password, logTry, typeUser,
+         $sql = $this->pdo->prepare('INSERT INTO Users (name, email, passHash, logTry, typeUser,
                 expiration, token, pomodoroTime, shortBreakTime, longBreakTime, qtdCicle,
-                template) VALUES (:name, :email, :password, :logTry, :typeUser,
+                template) VALUES (:name, :email, :passHash, :logTry, :typeUser,
                 :expiration, :token, :pomodoroTime, :shortBreakTime, :longBreakTime, :qtdCicle,
                 :template)');
         $sql->bindValue(':name', $u->getName());
         $sql->bindValue(':email', $u->getEmail());
-        $sql->bindValue(':password', $u->getPassword());
+        $sql->bindValue(':passHash', $u->getPassHash());
         $sql->bindValue(':logTry', $u->getLogTry());
         $sql->bindValue(':typeUser', $u->getTypeUser());
         $sql->bindValue(':expiration', $u->getExpiration());
@@ -61,7 +67,7 @@ class UserDaoMysql implements UserDao {
     }
 
     public function findByEmail($email) {
-        $sql = $this->pdo->prepare('SELECT * FROM users WHERE email = :email');
+        $sql = $this->pdo->prepare('SELECT * FROM Users WHERE email = :email');
         $sql->bindValue(':email', $email);
         $sql->execute();
         //echo 'find by email - procurando email';
@@ -69,7 +75,103 @@ class UserDaoMysql implements UserDao {
         if ($sql->rowCount() > 0) {
             $data = $sql->fetch();
             $u = new User();
-            return Helper::constructUser($u, $data);
+            $u->setId($data['id']);
+            $u->setName($data['name']);
+            $u->setEmail($data['email']);
+            $u->setPassHash($data['passHash']);
+            $u->setLogtry($data['logTry']);
+            $u->setTypeUser($data['typeUser']);         
+            $u->setExpiration($data['expiration']);
+            $u->setToken($data['token']);
+            $u->setPomodoroTime($data['pomodoroTime']);
+            $u->setShortBreakTime($data['shortBreakTime']);
+            $u->setLongBreakTime($data['longBreakTime']);
+            $u->setQtdCicle($data['qtdCicle']);
+            $u->setTemplate($data['template']);
+
+            //Pegar array com os projetos relacionados com o User
+            //$userId = $u->getId();
+            $userId = $u->getId();
+            $sqlProjects = $this->pdo->prepare('SELECT * FROM Projects WHERE userId = :userId');
+            $sqlProjects->bindValue(':userId', $userId);
+            $sqlProjects->execute();
+            $dataProjects = $sqlProjects->fetchAll(PDO::FETCH_ASSOC);
+            echo('<br/>'.'Projetos do UserId '.$userId.' : '.'<br/>');
+            //print_r($dataProjects);
+            $projects = [];
+            foreach($dataProjects as $item) {
+                $p = new Project();
+                $p->setId($item['id']);
+                $p->setDescription($item['description']);
+                $p->setNotes($item['notes']);
+                $p->setHidden($item['hidden']);
+
+                $projectId = $p->getId();
+                $sqlTasks = $this->pdo->prepare('SELECT * FROM Tasks WHERE projectId = :projectId');
+                $sqlTasks->bindValue(':projectId', $projectId);
+                $sqlTasks->execute();
+                $dataTasks = $sqlTasks->fetchAll(PDO::FETCH_ASSOC);
+
+                echo('Tarefas do projeto ID#'.$projectId.'<br/>');
+                print_r($dataTasks);
+                echo('<br/>'.'**** Objetos t - new Task*****'.'<br/>');
+                $tasks = []; 
+                foreach($dataTasks as $item) {
+                    $t = new Task();
+                    $t->setId($item['id']);
+                    $t->setDescription($item['description']);
+                    $t->setNotes($item['notes']);
+                    array_push($tasks, $t);
+                    //print_r($t);
+                    //echo('<br/>');
+                }
+                $p->setTasks($tasks);
+                array_push($projects, $p);
+                //echo('<br/><br/>');
+
+                /* echo('Tarefas do projeto ID#'.$projectId.'<br/>');
+                print_r($dataTasks);
+                echo('<br/><br/>'); */
+
+
+               /*  print_r($item);
+                echo('<br/>');
+                echo('*** Objeto p - New Project*****'.'<br/>');
+                print_r($p);
+                echo('<br/><br/>'); */
+            }
+
+            $u->setProjects($projects);
+
+
+            $sqlStatistics = $this->pdo->prepare('SELECT * FROM Statistics WHERE userId = :userId');
+            $sqlStatistics->bindValue(':userId', $userId);
+            $sqlStatistics->execute();
+            $dataStatistics = $sqlStatistics->fetchAll(PDO::FETCH_ASSOC);
+            $statiscs = []; 
+            foreach($dataStatistics as $item) {
+                $s = new Statistic();
+                $s->setDay($item['day']);
+                $s->setMinWork($item['minWork']);
+                $s->setMinBreak($item['minBreak']);
+                array_push($statiscs, $s);
+                //print_r($t);
+                //echo('<br/>');
+            }
+            $u->setStatistics($statiscs);
+           
+           
+
+            //criar um array de objetos Projetos e já colocar as Tasks relacionadas a cada projeto
+
+
+
+            //return Helper::constructUser($u, $data);
+            //return constructUser($u, $data);
+            //echo('<br/>'.'****objeto $u --- new User***'.'<br/>');
+            var_dump($u);
+            return $u;
+
         } else {
             //echo 'findByEmail - false';
             return false;

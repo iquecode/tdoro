@@ -16,7 +16,7 @@ class Helper {
         $u->setId($data['id']);
         $u->setName($data['name']);
         $u->setEmail($data['email']);
-        $u->setPassword($data['password']);
+        $u->setPassHash($data['passHash']);
         $u->setLogtry($data['logTry']);
         $u->setTypeUser($data['typeUser']);         
         $u->setExpiration($data['expiration']);
@@ -26,8 +26,23 @@ class Helper {
         $u->setLongBreakTime($data['longBreakTime']);
         $u->setQtdCicle($data['qtdCicle']);
         $u->setTemplate($data['template']);
-        $u->setProjects($data['projects']);
-        $u->setStatistics($data['statistics']);
+
+        
+       /*  // Pegar array com os projetos relacionados com o User
+        $userId = $u->getId();
+        $sqlProjects = $this->pdo->prepare('SELECT * FROM Projects WHERE userId = :userId');
+        $sqlProjects->bindValue(':userId', $userId);
+        $sqlProjects->execute();
+        $dataProjects = $sqlProjects->fetchAll(PDO::FETCH_ASSOC);
+
+        echo('Projetos do UserId '.$userId.' : '.'<br/>');
+        print_r($dataProjects); */
+
+
+
+        //
+        //$u->setProjects($data['projects']);
+        //$u->setStatistics($data['statistics']);
         return $u;
     }
 

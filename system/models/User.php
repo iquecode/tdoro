@@ -5,7 +5,7 @@ class User {
     private $id; 
     private $name;
     private $email;
-    private $password;
+    private $passHash;
     private $logTry;         
     private $typeUser;
     private $expiration;
@@ -37,11 +37,11 @@ class User {
     public function setEmail($e){
         $this->email = strtolower(trim($e));
     }
-    public function getPassword(){
-        return $this->password;
+    public function getPassHash(){
+        return $this->passHash;
     }
-    public function setPassword($i){
-        $this->password = trim($i);
+    public function setPassHash($i){
+        $this->passHash = trim($i);
     }
     public function getLogTry(){
         return $this->logTry;

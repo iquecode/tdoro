@@ -1,9 +1,107 @@
+INSERT INTO Statistics
+VALUES 
+('2020-09-08',1,45,10),
+('2020-09-09',1,30,5),
+('2020-09-10',1,15,10),
+('2020-09-12',1,30,15),
+('2020-09-13',1,95,16),
+('2020-09-15',1,127,17),
+('2020-09-16',1,45,10),
+('2020-09-17',1,30,5),
+('2020-09-20',1,15,10),
+('2020-09-24',1,30,15),
+('2020-09-25',1,95,16),
+('2020-09-27',1,127,17),
+('2020-09-28',1,89,25),
+('2020-09-29',1,145,20),
+('2020-09-30',1,219,35);
+
+
+
+
+INSERT INTO Tasks (description, notes, projectId) VALUES 
+('Tarefa 1 de Henrique', '', 1),
+('Tarefa 2 de Henrique', '', 1),
+('Tarefa 3 de Henrique', 'Tarefa legal', 1),
+('Tarefa 4 de Henrique', 'Tarefa interessante', 2),
+('Tarefa 5 de Henrique', 'show de bola', 2),
+('Tarefa 6 de Henrique', '', 2),
+('Tarefa 7 de Henrique', '', 3),
+('Tarefa 8 de Henrique', 'teste', 3),
+('Tarefa 9 de Henrique', '', 4),
+('Tarefa 1 de Ike Grilo', 'fantástico', 5),
+('Tarefa 2 de Ike Grilo', '', 5),
+('Tarefa 3 de Ike Grilo', 'Excelente!', 5);	
+
+
+ALTER TABLE aluno ADD idade int(11) AFTER nome
+A consulta acima adicionará a tabela “idade” depois da coluna “nome“.
+
+INSERT INTO nome_tabela (coluna1, coluna2,...)
+VALUES (valor1, valor2,...);
+
+INSERT INTO tbl_autores
+VALUES
+(1, 'Daniel', 'Barret'),
+(2, 'Gerald', 'Carter'),
+(3, 'Mark', 'Sobell'),
+(4, 'William', 'Stanek'),
+(5, 'Richard', 'Blum'),
+(6, 'Jostein', 'Gaarder'),
+(7, 'Umberto', 'Eco'),
+(8, 'Neil', 'De Grasse Tyson'),
+(9, 'Stephen', 'Hawking'),
+(10, 'Stephen', 'Jay Gould'),
+(11, 'Charles', 'Darwin'),
+(12, 'Alan', 'Turing'),
+(13, 'Simon', 'Monk'),
+(14, 'Paul', 'Scherz');
+Note que nesse caso, como inserimos dados em todas as colunas da tabela, e na mesma ordem 
+em que elas foram criadas, não foi necessário especificar essas colunas no comando.
+
+
+
+CREATE TABLE Users (
+    id int(10) AUTO_INCREMENT, 
+	name varchar(60),
+    email varchar(60) NOT NULL,
+    passHash varchar(256) NOT NULL,
+    logTry int(2),      
+    typeUser int(2),       
+    expiration date,        
+    token varchar(256), 
+    pomodoroTime int(3),
+    shortBreakTime int(3),
+    longBreakTime int(3),
+    qtdCicle int(2),
+    template int(1),
+    PRIMARY KEY (id)
+    );
+
+
+CREATE TABLE Projects (
+    id int(10) AUTO_INCREMENT, 
+	description varchar(40),
+	notes	varchar(256),
+	userId	int(10),
+    PRIMARY KEY (id),
+    FOREIGN KEY(userId) REFERENCES Users(id)
+    );
+
+CREATE TABLE Tasks ( 
+    id int(10) AUTO_INCREMENT, 
+    description varchar(40), 
+    notes varchar(256), 
+    projectId int(10), 
+    PRIMARY KEY (id), 
+    FOREIGN KEY(projectId) REFERENCES Projects(id) ); 
+
 Users
 -------
-pkUserId         int(10) 
+id               int(10) 
 name             varchar(60)
 email            varchar(60)
-password         varchar(256)
+passHash         varchar(256)
 logTry           int(2)       -> Armazena a quantidade de tentativas de login sem sucesso
 typeUser         int(2)       -> Usuário comum ou premium, com a possibilidad de outra variações
 expiration       date         -> Validade do plano pagante premium etc
@@ -14,17 +112,21 @@ longBreakTime    int(3)
 qtdCicle         int(2)
 template         int(1)
 
+
+
+
 Projects
 ------
-pkProjectId     int(10)
+id              int(10)
 description     varchar(40)
 notes           varchar(256)
+hidden          tinyint(1)  - 0-false  1-true
 userId          int
 
 
 Tasks
 ------
-pkTaskId        int(10)
+id              int(10)
 description     varchar(40)
 notes           varchar(256)
 projectId       int
@@ -32,8 +134,8 @@ projectId       int
 
 Statistics
 -----------
-day             date (Y/m/d)      PrimaryKey   *
-userId          int(10)                   PrimaryKey   *  UserId + day   
+day             date (Y/m/d)      PK 
+userId          int(10)           PK  FK   
 minWork         int(4)
 minBreak        int(4) 
 

@@ -27,7 +27,7 @@ if(isset($email) && $passEqual && $passOk) {
         $user = new User();
         $user->setName('');
         $user->setEmail($email);
-        $user->setPassword( password_hash($pass, PASSWORD_DEFAULT) );
+        $user->setPassHash( password_hash($pass, PASSWORD_DEFAULT) );
         $user->setLogtry(0);
         $user->setTypeUser(0);
         $user->setExpiration('2021-06-01');

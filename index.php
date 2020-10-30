@@ -142,11 +142,12 @@
                 
                 
                 <div class="login-div">
-                    <form class="form-login" action="" method="">
+                    <form class="form-login" onsubmit="login(event, this)">
 
-                        <input class="input-login" type="email" name="login-email" placeholder="email..."  />
-                        <input class="input-login" type="password" name= "login-password" placeholder="senha... "/>
-                        <input class="login-submit" type="submit" value="Login" />
+                        <input class="input-login" type="email" name="loginEmail" placeholder="email..."  />
+                        <input class="input-login" type="password" name= "loginPassword" placeholder="senha... "/>
+                        <!-- <span class="login-submit" onclick="login()">Login</span> -->
+                        <input class="login-submit" type="submit" value="Login" /> 
                     </form>
 
                     <label class="forgot-password" onclick="setModalLogin('password')">

@@ -397,6 +397,18 @@ function setModalLogin(type) {
 
 }
 
+function login(event, form) {
+    event.preventDefault();
+  
+    //verificar se existe a informação... pois o submit ocorre se for clicano no [login] com os campos em branco
+  
+    const inputEmail = form.loginEmail.value;
+    const inputPass = form.loginPassword.value;
+    console.log('Login!!!!');
+    console.log('email: ' + inputEmail);
+    console.log('senha: ' + inputPass);
+}
+
 
 function tdoro() {
 

@@ -1,0 +1,69 @@
+
+http://jsonviewer.stack.hu/
+http://resttesttest.com/
+
+
+
+
+
+FORMULÁRIO DE LOGIN
+Login.....
+Senha.....
+[ Entrar ]  -> vai para validator.php
+
+
+
+validator.php
+-------------
+Salva as infos de Login (email) e o hash da senha
+conecta no banco de dados
+
+se existir usuário com o email informado no banco de dados
+    se login liberado (nr de tentativas etc)
+        se hash da senha conferir -> fazer o Login
+            se hash da senha não conferir -> salvar no bd + uma tentativa de login e voltar com msg de erro
+    se login não liberado -> voltar com msg informando
+se não existir usuário com o email informado -> voltar com msg de erro
+
+
+Fazer o login? Como?
+Criar seção com uma variável que identifique o tokem do usuário
+gerar um objeto User com todas as informações do usuário do banco de dados 
+(contendo também os projetos/tarefas e estatisticas relacionados ao usuário)
+tal objeto user deve ser utilizado para a renderização e funcionamento do sistema
+
+
+
+
+// Se a sessão não existir, inicia uma
+      if (!isset($_SESSION)) session_start();
+
+      // Salva os dados encontrados na sessão
+      $_SESSION['UsuarioID'] = $resultado['id'];
+      $_SESSION['UsuarioNome'] = $resultado['nome'];
+      $_SESSION['UsuarioNivel'] = $resultado['nivel'];
+
+      // Redireciona o visitante
+      header("Location: restrito.php"); exit;
+
+
+
+// A sessão precisa ser iniciada em cada página diferente
+  if (!isset($_SESSION)) session_start();
+
+  // Verifica se não há a variável da sessão que identifica o usuário
+  if (!isset($_SESSION['UsuarioID'])) {
+      // Destrói a sessão por segurança
+      session_destroy();
+      // Redireciona o visitante de volta pro login
+      header("Location: index.php"); exit;
+  }
+
+
+
+
+  logout
+  session_start(); // Inicia a sessão
+  session_destroy(); // Destrói a sessão limpando todos os valores salvos
+  header("Location: index.php"); exit; // Redireciona o visitante
+

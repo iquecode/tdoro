@@ -10,6 +10,12 @@ let timer = {
     long: {m: 15, s:0}
 };
 
+let config = {
+    pomodoro: 25,
+    short:  5,
+    long: 15,
+    longBreakInterval: 4
+};
 
 let taskIndexControl = -1;
 
@@ -102,12 +108,15 @@ function showTime() {
 
 
 function reset() {
-    timer.pomodoro.m = 25;
+
+   
+    timer.pomodoro.m = config.pomodoro;
     timer.pomodoro.s = 0;
-    timer.short.m = 5;
+    timer.short.m = config.short;
     timer.short.s = 0;
-    timer.long.m = 15;
+    timer.long.m = config.long;
     timer.long.s = 0;
+    longBreakInterval = config.longBreakInterval;
 
     
 
@@ -186,6 +195,12 @@ function startModal(modalID, clear=true) {
 
             if(e.target.id == modalID || e.target.className == "btn-set") {
                 console.log('salvar configurações');
+                config.pomodoro = document.getElementById('pomodoroTime').value;
+                config.short = document.getElementById('shortTime').value;
+                config.long = document.getElementById('longTime').value;
+                config.longBreakInterval = document.getElementById('qtdPomodoros').value;
+                modal.classList.remove('show');
+                reset();
             }
 
 

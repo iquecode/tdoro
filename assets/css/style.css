@@ -315,7 +315,7 @@ label {
 
 .modal-container {
     width: 100vw;
-    height: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.5);
     position: fixed;
     top: 0px;
@@ -337,7 +337,7 @@ label {
 
 .modal, .modal-task {
     background-color: #FAFAFA;
-    width: 400px;
+    width: 350px;
     /* padding: 20px; */
     box-sizing: border-box;
     /* border: 10px solid #988b7a;

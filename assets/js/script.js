@@ -436,5 +436,5 @@ function tdoro() {
 
 }
 
-localStorage.clear();
+// localStorage.clear();
 tdoro();
